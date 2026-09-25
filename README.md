@@ -10,7 +10,14 @@ Status feedback for the [Pi coding agent](https://pi.dev) inside Zed Terminal Th
 
 ## Install
 
-Copy the file into Pi's user extensions directory, then restart Pi (or run `/reload`):
+**Via pi package** (installs and updates through Pi's package system):
+
+```sh
+pi install git:github.com/RunnanLiu/pi-zed-status
+# after the npm release: pi install npm:@runnanliu/pi-zed-status
+```
+
+**Manual copy** — put the file into Pi's user extensions directory, then restart Pi (or run `/reload`):
 
 ```sh
 cp pi-zed-status.ts ~/.pi/agent/extensions/
@@ -19,7 +26,7 @@ cp pi-zed-status.ts ~/.pi/agent/extensions/
 
 To try it once without installing: `pi --extension ./pi-zed-status.ts`
 
-> **Don't double-install.** The extensions-dir copy and a `pi install` package would both run — double title writes, double bells.
+> **Don't double-install.** A `pi install` package and an extensions-dir copy would both run — double title writes, double bells. Pick one.
 
 ## Usage
 

@@ -10,7 +10,14 @@
 
 ## 安装
 
-拷贝到 Pi 用户扩展目录后重启 pi（或执行 `/reload`）：
+**pi 包方式**（统一走 Pi 的包管理，便于更新）：
+
+```sh
+pi install git:github.com/RunnanLiu/pi-zed-status
+# npm 发布后：pi install npm:@runnanliu/pi-zed-status
+```
+
+**手工拷贝** —— 将文件放入 Pi 用户扩展目录后重启 pi（或执行 `/reload`）：
 
 ```sh
 cp pi-zed-status.ts ~/.pi/agent/extensions/
@@ -19,7 +26,7 @@ cp pi-zed-status.ts ~/.pi/agent/extensions/
 
 免安装试用一次：`pi --extension ./pi-zed-status.ts`
 
-> **勿双装**：扩展目录副本与 `pi install` 包同时存在会双写标题、双响铃。
+> **勿双装**：`pi install` 包与扩展目录副本同时存在会双写标题、双响铃，二选一。
 
 ## 使用
 
