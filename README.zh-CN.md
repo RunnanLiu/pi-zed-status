@@ -20,11 +20,11 @@ pi install npm:@ryanliu0126/pi-zed-status
 **手工拷贝** —— 将文件放入 Pi 用户扩展目录后重启 pi（或执行 `/reload`）：
 
 ```sh
-cp pi-zed-status.ts ~/.pi/agent/extensions/
-# Windows: C:\Users\<你>\.pi\agent\extensions\
+cp index.ts ~/.pi/agent/extensions/pi-zed-status.ts
+# Windows: copy index.ts C:\Users\<你>\.pi\agent\extensions\pi-zed-status.ts
 ```
 
-免安装试用一次：`pi --extension ./pi-zed-status.ts`
+免安装试用一次：`pi --extension ./index.ts`
 
 > **勿双装**：`pi install` 包与扩展目录副本同时存在会双写标题、双响铃，二选一。
 

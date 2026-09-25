@@ -1,6 +1,6 @@
 {
   "name": "@ryanliu0126/pi-zed-status",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Zed Terminal Threads status feedback for the Pi coding agent — ∏ idle icon, native braille spinner, completion bell",
   "type": "module",
   "license": "MIT",
@@ -19,7 +19,7 @@
     "notification"
   ],
   "files": [
-    "pi-zed-status.ts",
+    "index.ts",
     "README.md",
     "README.zh-CN.md",
     "LICENSE"
@@ -29,7 +29,7 @@
   },
   "pi": {
     "extensions": [
-      "./pi-zed-status.ts"
+      "./index.ts"
     ]
   }
 }

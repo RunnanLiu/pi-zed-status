@@ -26,7 +26,7 @@
 ## 2. 架构（定稿，约 60 行单文件）
 
 ```
-pi-zed-status.ts（零依赖，仅 node:path）
+index.ts（npm/pi 约定入口；零依赖，仅 node:path）
 │
 │  常量：GLYPH="▣"  FRAMES=["▘","▝","▗","▖"]
 │        TICK_MS=200  REFRESH_MS=1000  MAX_TITLE=40
@@ -68,13 +68,13 @@ pi-zed-status.ts（零依赖，仅 node:path）
 
 ```
 D:/Artifact/Pi-Custom/pi-zed-status/
-├── pi-zed-status.ts    # 全部实现
+├── index.ts            # npm/pi 约定入口，全部实现
 ├── README.md            # 英文主文档（跳转中文版）
 ├── README.zh-CN.md      # 中文文档
 └── .agents/plan.md      # 本文件
 ```
 
-- 开发验证：`pi --extension ./pi-zed-status.ts`
+- 开发验证：`pi --extension ./index.ts`
 - 部署：拷入 `~/.pi/agent/extensions/`（与包安装**二选一**，双装会双写/双响）
 - 将来发布：加个人 npm scope（如 `@<user>/pi-zed-status`），避开已有的 `@yukikisaku/pi-zed-status`
 
@@ -88,7 +88,7 @@ D:/Artifact/Pi-Custom/pi-zed-status/
 - [x] 4. 实现生命周期：`session_start` 启 timer（防御性清旧）、`session_shutdown` 幂等清 timer
 - [x] 5. 编写 `README.md`（中文，含安装/卸载、双装警告、Zed 零配置说明、`printf '\a'` 自检法、禁用开关）
 
-### 阶段二：开发期验证（`pi --extension ./pi-zed-status.ts`）
+### 阶段二：开发期验证（当前入口：`pi --extension ./index.ts`）
 
 - [x] 6. idle 状态显示 `▣ pi | <名>`，Zed 标签标题与侧栏图标位正确 ✅ 人工实测通过（2026-09-25）
 - [x] 7. busy 状态四象限旋转（200ms/帧），idle 后归零回 ▣ ✅ 人工实测通过（2026-09-25）
@@ -100,7 +100,7 @@ D:/Artifact/Pi-Custom/pi-zed-status/
 - [x] 10. 会话改名/切换（`session_info_changed` 触发 pi 原生重写）后 ≤1s 恢复 ▣ 前缀 ✅ 人工实测通过（2026-09-25）
 - [x] 11. 制造 API 错误重试场景 → 无提前铃、最终只响一次（验证 settled 选型）✅ 人工实测通过（2026-09-25）
 - [x] 12. quit / reload / 切会话 → 无悬挂 timer 报错、无重复动画 ✅ 人工实测通过（2026-09-25）
-- [x] 13. （可选）发布准备：package.json + scope 命名 + `pi install` 验证（2026-09-25：npm 实际用户名为 ryanliu0126，scope 定为 **@ryanliu0126**（原定 @runnanliu 无 org 不可用）；v0.1.1 已发布 npm 并验证 `pi install npm:` 可装；README 双语已更新为 npm 主安装方式）
+- [x] 13. （可选）发布准备：package.json + scope 命名 + `pi install` 验证（2026-09-25：npm scope 定为 **@ryanliu0126**；v0.1.1 首次发布并验证 npm 安装；v0.1.2 将入口改为约定 `index.ts`，消除 Pi 启动提示中的 `:pi-zed-status.ts` 后缀）
 
 ## 6. 已知取舍与风险（接受，不为此加码）
 
