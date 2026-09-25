@@ -100,7 +100,7 @@ D:/Artifact/Pi-Custom/pi-zed-status/
 - [x] 10. 会话改名/切换（`session_info_changed` 触发 pi 原生重写）后 ≤1s 恢复 ▣ 前缀 ✅ 人工实测通过（2026-09-25）
 - [x] 11. 制造 API 错误重试场景 → 无提前铃、最终只响一次（验证 settled 选型）✅ 人工实测通过（2026-09-25）
 - [x] 12. quit / reload / 切会话 → 无悬挂 timer 报错、无重复动画 ✅ 人工实测通过（2026-09-25）
-- [x] 13. （可选）发布准备：package.json + scope 命名 + `pi install` 验证（2026-09-25：package.json（@runnanliu/pi-zed-status，pi 清单 + peerDeps）与 LICENSE 完成；npm pack 验证通过；本地 `pi install ./` 验证通过（已作为当前安装方式）；git: 安装形式随仓库可用。**待办**：npm token 过期，需 `npm login` 后 `npm publish --access public`，随后 README 补充 npm: 安装行）
+- [x] 13. （可选）发布准备：package.json + scope 命名 + `pi install` 验证（2026-09-25：npm 实际用户名为 ryanliu0126，scope 定为 **@ryanliu0126**（原定 @runnanliu 无 org 不可用）；v0.1.1 已发布 npm 并验证 `pi install npm:` 可装；README 双语已更新为 npm 主安装方式）
 
 ## 6. 已知取舍与风险（接受，不为此加码）
 

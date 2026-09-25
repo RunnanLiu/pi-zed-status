@@ -13,8 +13,8 @@ Status feedback for the [Pi coding agent](https://pi.dev) inside Zed Terminal Th
 **Via pi package** (installs and updates through Pi's package system):
 
 ```sh
-pi install git:github.com/RunnanLiu/pi-zed-status
-# after the npm release: pi install npm:@runnanliu/pi-zed-status
+pi install npm:@ryanliu0126/pi-zed-status
+# or straight from git: pi install git:github.com/RunnanLiu/pi-zed-status
 ```
 
 **Manual copy** — put the file into Pi's user extensions directory, then restart Pi (or run `/reload`):

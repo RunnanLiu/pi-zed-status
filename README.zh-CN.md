@@ -13,8 +13,8 @@
 **pi 包方式**（统一走 Pi 的包管理，便于更新）：
 
 ```sh
-pi install git:github.com/RunnanLiu/pi-zed-status
-# npm 发布后：pi install npm:@runnanliu/pi-zed-status
+pi install npm:@ryanliu0126/pi-zed-status
+# 或直接从 git 安装：pi install git:github.com/RunnanLiu/pi-zed-status
 ```
 
 **手工拷贝** —— 将文件放入 Pi 用户扩展目录后重启 pi（或执行 `/reload`）：
