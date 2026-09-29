@@ -34,7 +34,7 @@ Just run `pi` in a Zed Terminal Thread. No session name yet? The title falls bac
 
 Zed needs no settings. If the bell never notifies: run `printf '\a'` in the thread — if Zed doesn't react, add `"terminal": { "bell": "system" }` to Zed's `settings.json`.
 
-Notes for tinkerers: Zed only promotes a *symbol-class* first character to the icon slot — that's why this extension uses `∏` (U+220F) rather than the letter `π`. Design rationale lives in [`.agents/plan-v0.1.3.md`](.agents/plan-v0.1.3.md); superseded plans are archived under [`.agents/archive/`](.agents/archive/).
+Notes for tinkerers: Zed only promotes a *symbol-class* first character to the icon slot — that's why this extension uses `∏` (U+220F) rather than the letter `π`. Design rationale lives in [`.agents/archive/2026-09-29-plan-v0.1.3-notification-snapshot-fix.md`](.agents/archive/2026-09-29-plan-v0.1.3-notification-snapshot-fix.md); superseded plans are archived under [`.agents/archive/`](.agents/archive/).
 
 ## Disable / uninstall
 
