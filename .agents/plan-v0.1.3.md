@@ -1,5 +1,7 @@
 # 实施方案：消除通知中的盲文残留（v0.1.3）
 
+> **状态：已发布（npm 0.1.3 / tag v0.1.3，2026-09-29），待用户升级验收。**
+
 > 问题：`agent_settled` 响铃时标题仍是最新的盲文帧，Zed 通知快照取到 `⠋ 会话名` 而非 `∏ 会话名`。
 > 根因：标题与响铃是两条无顺序约束的副作用链路；标题靠 ≤80ms 后的 tick 追赶。
 > 解法：提取唯一标题写者 `writeTitle(ctx, busy)`；settled 处理器内**同步先写 ∏ 标题、后写 BEL**，顺序成为结构属性。
@@ -108,7 +110,7 @@
 | 4.2 | 冒烟全绿后 commit（信息：`Settle title before bell so notifications never show a spinner frame`） |
 | 4.3 | `npx --yes npm@11.15.0 publish --access public --json`——**预期触发 2FA**：把 authUrl 转给用户浏览器确认（勾选 trust IP 5 分钟），窗口内重跑 |
 | 4.4 | registry 轮询验证 `dist-tags.latest === 0.1.3`（容忍索引传播，≤1 分钟重试循环） |
-| 4.5 | 本机 `pi remove` + `pi install npm:@ryanliu0126/pi-zed-status`，`diff` 确认安装 = 源码 |
+| 4.5 | ~~本机 remove+install~~ 改为：**用户经提示链路手动升级**——发布且 registry 传播后重启 pi，待更新提示出现，执行 `pi update --extension` 升至 0.1.3（放在全部发布步骤之后、验收之前） |
 | 4.6 | push + tag `v0.1.3`（信息：`v0.1.3: settle title before bell (notification snapshot fix)`） |
 | 4.7 | plan.md 迭代记录追加一行（v0.1.3：通知快照修复，writeTitle 单一写者重构） |
 
@@ -126,9 +128,9 @@
 
 ## 7. 任务清单
 
-- [ ] 1. index.ts：writeTitle 单一写者 + 一行 tick（含 try/catch 容错）
-- [ ] 2. index.ts：重写 agent_settled / ui_prompt_start handler，删 bell 辅助函数，补 INV 注释
-- [ ] 3. test-pzs.mjs：oplog 顺序断言 [8] + 去抖回归 [9]，全量重跑通过
-- [ ] 4. bump 0.1.3 → commit → publish（2FA 授权窗口）→ registry 验证
-- [ ] 5. 本机重装 0.1.3 → diff 校验 → push + tag v0.1.3 → plan.md 记录
-- [ ] 6. 用户真实环境验收（§5），plan.md 打勾收尾
+- [x] 1. index.ts：writeTitle 单一写者 + 一行 tick（含 try/catch 容错）
+- [x] 2. index.ts：重写 agent_settled / ui_prompt_start handler，删 bell 辅助函数，补 INV 注释
+- [x] 3. test-pzs.mjs：oplog 顺序断言 [8] + 去抖回归 [9]，全量重跑通过（含 [7] 段 mock 污染修复：隔离工厂）
+- [x] 4. bump 0.1.3 → commit → publish（重新登录 + 2FA 授权窗口）→ registry 验证（0.1.3 @ 2026-09-29T11:56:32Z）
+- [x] 5. push + tag v0.1.3 → plan.md 记录（0b52808；用户后续经提示链路 `pi update --extension` 手动升级）
+- [ ] 6. 用户升级 0.1.3 后真实环境验收（§5），plan.md 打勾收尾
