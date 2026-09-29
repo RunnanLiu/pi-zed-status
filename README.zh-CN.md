@@ -34,7 +34,7 @@ cp index.ts ~/.pi/agent/extensions/pi-zed-status.ts
 
 Zed 无需任何设置。若响铃从不通知：在终端线程里跑 `printf '\a'`——Zed 无反应则在 `settings.json` 加 `"terminal": { "bell": "system" }`。
 
-给爱折腾的人：Zed 只把**符号类**首字符提升到图标位——所以本扩展用 `∏`（U+220F）而非字母 `π`。设计依据见 [`.agents/plan.md`](.agents/plan.md)。
+给爱折腾的人：Zed 只把**符号类**首字符提升到图标位——所以本扩展用 `∏`（U+220F）而非字母 `π`。设计依据见 [`.agents/plan-v0.1.3.md`](.agents/plan-v0.1.3.md)；历史方案归档于 [`.agents/archive/`](.agents/archive/)。
 
 ## 禁用 / 卸载
 
