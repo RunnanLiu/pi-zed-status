@@ -13,9 +13,11 @@
  * Bell (BEL \x07; Zed raises a notification when the terminal is unfocused):
  *   agent_settled   — run fully settled (retries/compaction/queued work done)
  *   ui_prompt_start — Pi blocked on a user-facing prompt (permission gate etc.)
+ *   Ordering invariant: on agent_settled the ∏ title is written synchronously
+ *   before the BEL, so Zed's notification snapshot never captures a spinner frame.
  *
  * Disable with PI_ZED_STATUS_DISABLE=1.
- * Design rationale: .agents/plan.md (port of OC-Zed-Status, official APIs only).
+ * Design rationale: .agents/plan-v0.1.3.md (port of OC-Zed-Status, official APIs only).
  */
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { basename } from "node:path";
@@ -38,18 +40,23 @@ export default function piZedStatus(pi: ExtensionAPI) {
   let lastWritten: string | null = null;
   let lastWriteAt = 0;
 
+  // Single writer for the terminal title: compose → dedup/backstop → write.
+  // Shared by the poll loop (tick) and event handlers (agent_settled).
+  const writeTitle = (ctx: ExtensionContext, busy: boolean) => {
+    const name = pi.getSessionName() || basename(ctx.cwd);
+    const shown = name.length > MAX_TITLE ? `${name.slice(0, MAX_TITLE - 3)}...` : name;
+    const title = busy ? `${FRAMES[frame++ % FRAMES.length]} ${shown}` : `${GLYPH} ${shown}`;
+    if (!busy) frame = 0;
+    const now = Date.now();
+    if (title === lastWritten && now - lastWriteAt < REFRESH_MS) return; // dedup + 1s backstop
+    lastWritten = title;
+    lastWriteAt = now;
+    ctx.ui.setTitle(title);
+  };
+
   const tick = (ctx: ExtensionContext) => {
     try {
-      const busy = !ctx.isIdle();
-      const name = pi.getSessionName() || basename(ctx.cwd);
-      const shown = name.length > MAX_TITLE ? `${name.slice(0, MAX_TITLE - 3)}...` : name;
-      const title = busy ? `${FRAMES[frame++ % FRAMES.length]} ${shown}` : `${GLYPH} ${shown}`;
-      if (!busy) frame = 0;
-      const now = Date.now();
-      if (title === lastWritten && now - lastWriteAt < REFRESH_MS) return; // dedup + 1s backstop
-      lastWritten = title;
-      lastWriteAt = now;
-      ctx.ui.setTitle(title);
+      writeTitle(ctx, !ctx.isIdle());
     } catch {
       // Status feedback must never break the agent.
     }
@@ -67,10 +74,15 @@ export default function piZedStatus(pi: ExtensionAPI) {
     timer = null;
   });
 
-  const bell = (ctx: ExtensionContext) => {
-    if (active(ctx)) process.stdout.write("\x07");
-  };
+  // INV: the ∏ title is written synchronously before the bell rings, so the
+  // notification snapshot never shows a spinner frame.
+  pi.on("agent_settled", (_event, ctx) => {
+    if (!active(ctx)) return;
+    writeTitle(ctx, false); // explicit idle — do not depend on isIdle() timing here
+    process.stdout.write("\x07");
+  });
 
-  pi.on("agent_settled", (_event, ctx) => bell(ctx));
-  pi.on("ui_prompt_start", (_event, ctx) => bell(ctx));
+  pi.on("ui_prompt_start", (_event, ctx) => {
+    if (active(ctx)) process.stdout.write("\x07"); // spinner keeps running: task paused, waiting for the user
+  });
 }
